@@ -5,7 +5,7 @@
 ### 1. **Environment Types**
 | Environment | Notes |
 |---|---|
-| **AWS GovCloud (US)** | Kinesis Data Streams & Firehose available |
+| **AWS Cloud ** | Kinesis Data Streams & Firehose available |
 | **AWS Outposts** | Limited Kinesis support; check service availability |
 | **AWS Snow Family** | Not natively supported |
 | **Isolated/On-Prem (SCIF, etc.)** | Requires alternative architectures |
@@ -18,7 +18,7 @@
 
 ---
 
-## Air-Gap Enablement Steps
+
 
 ### Network & Endpoint Configuration
 ```plaintext
@@ -49,34 +49,12 @@
 }
 ```
 
-### Encryption (Required for Air-Gap)
+### Encryption
 - **At rest**: AWS KMS (CMK) encryption on streams
 - **In transit**: TLS 1.2+ enforced
 - **KMS VPC Endpoint**: `com.amazonaws.<region>.kms`
 
----
 
-## Air-Gap Alternative Architectures
-
-If Kinesis is **not available** in your air-gapped environment:
-
-### Option A: Apache Kafka (Self-Managed)
-```
-Producers → Kafka Cluster → Consumers
-         (on-prem / isolated VPC)
-```
-- **Amazon MSK** if available in region
-- Open-source Kafka on EC2/containers
-
-### Option B: Redis Streams
-```
-Producers → Redis Cluster → Consumers
-```
-
-### Option C: Apache Pulsar / NATS
-- Lightweight messaging alternatives
-
----
 
 ## Deployment Checklist
 
@@ -91,7 +69,7 @@ Producers → Redis Cluster → Consumers
 - [ ] Test failover and stream scaling
 - [ ] Conduct security review / ATO documentation
 
-## SDK Configuration (Air-Gap Endpoint Override)
+## SDK Configuration 
 
 ```python
 import boto3
@@ -112,7 +90,7 @@ response = client.put_record(
 
 ---
 
-## Monitoring in Air-Gap
+## Monitoring
 
 - **CloudWatch** (via VPC endpoint) for stream metrics
 - **Enhanced Fan-Out** for low-latency consumers
@@ -120,10 +98,6 @@ response = client.put_record(
 - **Shard-level metrics** for capacity planning
 
 ---
-
-Would you like me to dive deeper into any specific aspect—such as a particular air-gapped environment, compliance framework (IL4/IL5/IL6), or alternative streaming architecture?
-User: what are preventative and detect controls you would put on Kinesis think permission sets, permission boundaries, SCP, RCP and Config and and remediaiton. Also note logging is essential and data must be encrypted at rest and transit
-Model: # Kinesis Security Controls Framework
 
 ## Comprehensive Preventative, Detective & Remediation Controls
 
